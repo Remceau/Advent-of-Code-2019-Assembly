@@ -163,7 +163,6 @@ PrintCharacter:
 GetFuelRequirements:
 
     ; Change context
-    push eax
     push ecx
     push edx
 
@@ -178,7 +177,6 @@ GetFuelRequirements:
     ; Return context
     pop edx
     pop ecx
-    pop eax
     ret
 
 
@@ -188,19 +186,28 @@ GetFuelRequirements:
 GetRealFuelRequirements:
 
     ; Change context
-    push eax
     push ebx
 
     ; Calculate original fuel requirements
+    call GetFuelRequirements
     mov ebx, eax
-    GetFuelRequirements
 
+
+    ; Calculate extra needed fuel
+    .Start:
+
+        call GetFuelRequirements
+        cmp eax, 0
+        jl .End
+        add ebx, eax
+        jmp .Start
+
+    .End:
+    mov eax, ebx
 
     ; Return context
     pop ebx
-    pop eax
     ret
-
 
 
 
