@@ -163,8 +163,9 @@ PrintCharacter:
 GetFuelRequirements:
 
     ; Change context
-    push edx
+    push eax
     push ecx
+    push edx
 
     ; Divide by 3, round down
     mov edx, 0
@@ -175,8 +176,9 @@ GetFuelRequirements:
     sub eax, 2      ; Subtract 2 from EAX
 
     ; Return context
-    pop ecx
     pop edx
+    pop ecx
+    pop eax
     ret
 
 
