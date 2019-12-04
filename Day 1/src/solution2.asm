@@ -13,7 +13,7 @@ _start:
         jge .end
 
         mov eax, [ebx]
-        call GetFuelRequirements
+        call GetRealFuelRequirements
         add edx, eax
         add ebx, 4
 
@@ -163,6 +163,7 @@ PrintCharacter:
 GetFuelRequirements:
 
     ; Change context
+    push eax
     push ecx
     push edx
 
@@ -177,7 +178,29 @@ GetFuelRequirements:
     ; Return context
     pop edx
     pop ecx
+    pop eax
     ret
+
+
+
+; Param eax : module weight
+; Return eax : fuel required
+GetRealFuelRequirements:
+
+    ; Change context
+    push eax
+    push ebx
+
+    ; Calculate original fuel requirements
+    mov ebx, eax
+    GetFuelRequirements
+
+
+    ; Return context
+    pop ebx
+    pop eax
+    ret
+
 
 
 
